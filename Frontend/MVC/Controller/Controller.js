@@ -1,5 +1,6 @@
 import { VEGPONT_ALAP } from "../../data.js";
 import DataService from "../Model/DataService.js";
+import TablaView from "../View/TablaView.js";
 
 class Controller
 {
@@ -8,12 +9,17 @@ class Controller
     constructor()
     {
         this.#dataService = new DataService();
-        this.#dataService.getData(VEGPONT_ALAP + "writers", this.#megjelenit, this.#hiba);
+        this.#dataService.getData(VEGPONT_ALAP + "/writers", this.#megjelenit, this.#hiba);
     }
 
     #megjelenit(data)
     {
-        console.log(data);
+        const LEIRO = [];
+        for (const KEY in data[0])
+        {
+            LEIRO.push(KEY);
+        }
+        const TABLA_VIEW = new TablaView($("#tabla"), data, LEIRO);
     }
 
     #hiba(error)
