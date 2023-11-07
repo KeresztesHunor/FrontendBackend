@@ -1,0 +1,1 @@
+export const VEGPONT_ALAP = "http://localhost:8000/";
