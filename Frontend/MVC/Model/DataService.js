@@ -5,14 +5,14 @@ class DataService
 
     }
 
-    getData(vegpont, callbackFuggveny, hibaCallback)
+    getData(vegpont, callbackFuggveny)
     {
         axios
             .get(vegpont)
             .then(response => {
                 callbackFuggveny(response.data);
             })
-            .catch(hibaCallback);
+            .catch(console.error);
     }
 
     postData(vegpont, data)

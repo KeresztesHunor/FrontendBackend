@@ -3,13 +3,13 @@ import TablaSorView from "./TablaSorView.js";
 
 class TablaView
 {
-    constructor(szuloElem, adatLista, tablaFejlecNevek)
+    constructor(szuloElem, adatLista)
     {
         szuloElem.append(
             tagTwo("table", { class: "table table-bordered" }, [
                 tagTwo("thead", {}, [
                     tagTwo("tr", {}, [
-                        tagLst(tablaFejlecNevek, fejlecNev => tagTwo("th", {}, [fejlecNev]))
+                        tagLst(Object.keys(adatLista[0]), (ertek) => tagTwo("th", {}, [ertek]))
                     ])
                 ]),
                 tagTwo("tbody")

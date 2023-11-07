@@ -5,7 +5,7 @@ class UrlapView
     constructor(szuloElem, leiro)
     {
         szuloElem.append(
-            tagTwo("form", { class: "border p-2 mb-2" }, [
+            tagTwo("form", { class: "border rounded p-2 mb-2" }, [
                 tagDct(leiro, (kulcs, ertek) => tagTwo("div", { class: "form-group" }, [
                     tagTwo("label", { for: kulcs }, [ertek.megj]),
                     tagOne("input", { type: ertek.type, id: kulcs, name: kulcs, placeholder: ertek.placeholder, value: "", title: ertek.title, class: "form-control" })

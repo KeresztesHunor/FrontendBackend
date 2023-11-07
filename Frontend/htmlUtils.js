@@ -8,7 +8,7 @@ export function tagTwo(tag, parameterek = {}, tartalom = [])
 export function tagLst(lista, callbackFuggveny)
 {
     let txt = "";
-    lista.forEach(elem => txt += callbackFuggveny(elem));
+    lista.forEach((elem, index) => txt += callbackFuggveny(elem, index));
     return txt;
 }
 
