@@ -9,7 +9,7 @@ class Controller
 
     constructor()
     {
-        this.#dataService = new DataService();
+        this.#dataService = new DataService(VEGPONT_ALAP);
         const URLAP_VIEW = new UrlapView($("#urlap"), {
             nev: {
                 megj: "Név",
@@ -29,12 +29,14 @@ class Controller
                 title: "[1900-2023]"
             }
         });
-        this.#dataService.getData(VEGPONT_ALAP + "/writers", data => {
-            const TABLA_VIEW = new TablaView($("#tabla"), data);
+        this.#dataService.getData("/api/writers", data => {
+            const TABLA_VIEW = new TablaView($("#tabla"), data, ["id"]);
         });
         $(window).on("validFormSubmitEvent", event => {
-            console.log(event.detail);
-            this.#dataService.postData(VEGPONT_ALAP + "/writers", event.detail);
+            this.#dataService.postData("/api/writers", event.detail);
+        });
+        $(window).on("torlesGombraKattintottEvent", event => {
+            this.#dataService.deleteData("/api/writers", event.detail.primaryKey);
         });
     }
 }

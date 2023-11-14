@@ -1,14 +1,16 @@
 class DataService
 {
-    constructor()
-    {
+    #urlBase;
 
+    constructor(urlBase)
+    {
+        this.#urlBase = urlBase;
     }
 
     getData(vegpont, callbackFuggveny)
     {
         axios
-            .get(vegpont)
+            .get(this.#urlBase + vegpont)
             .then(response => {
                 callbackFuggveny(response.data);
             })
@@ -18,7 +20,19 @@ class DataService
     postData(vegpont, data)
     {
         axios
-            .post(vegpont, data)
+            .post(this.#urlBase + vegpont, data)
+            .then(console.log)
+            .catch(console.error);
+    }
+
+    deleteData(vegpont, kulcs)
+    {
+        let osszetettKulcs = "";
+        kulcs.forEach(adat => {
+            osszetettKulcs += "/" + adat;
+        });
+        axios
+            .delete(this.#urlBase + vegpont + osszetettKulcs)
             .then(console.log)
             .catch(console.error);
     }

@@ -17,9 +17,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/writers', [WriterController::class, 'index']);
-Route::get('/writers/{id}', [WriterController::class, 'show']);
-Route::post('/writers', [WriterController::class, 'store']);
-Route::put('/writers/{id}', [WriterController::class, 'update']);
-Route::delete('/writers/{id}', [WriterController::class, 'destroy']);
