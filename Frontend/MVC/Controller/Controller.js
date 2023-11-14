@@ -33,7 +33,7 @@ class Controller
             const TABLA_VIEW = new TablaView($("#tabla"), data, ["id"]);
         });
         $(window).on("validFormSubmitEvent", event => {
-            this.#dataService.postData("/api/writers", event.detail);
+            this.#dataService.postData("/api/writers", event.detail.data);
         });
         $(window).on("torlesGombraKattintottEvent", event => {
             this.#dataService.deleteData("/api/writers", event.detail.primaryKey);

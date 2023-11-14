@@ -41,11 +41,11 @@ class UrlapView
                         DATA[INPUT_MEZO_ELEM.attr("name")] = INPUT_MEZO_ELEM.val();
                     }
                 });
-                window.dispatchEvent(new CustomEvent("validFormSubmitEvent", { detail: DATA }));
-            }
-            else
-            {
-                event.preventDefault();
+                window.dispatchEvent(new CustomEvent("validFormSubmitEvent", {
+                    detail: {
+                        data: DATA
+                    }
+                }));
             }
         });
     }
