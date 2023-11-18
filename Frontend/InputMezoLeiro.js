@@ -3,8 +3,8 @@ class InputMezoLeiro
     #megj;
     #placeholder;
     #title;
-    _type;
-    _pattern;
+    #type;
+    #pattern;
 
     constructor(megj, placeholder, title)
     {
@@ -33,9 +33,19 @@ class InputMezoLeiro
         return this._type;
     }
 
+    set _type(type)
+    {
+        this.#type = type;
+    }
+
     get pattern()
     {
         return this._pattern;
+    }
+
+    set _pattern(pattern)
+    {
+        this.#pattern = pattern;
     }
 }
 

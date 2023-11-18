@@ -5,7 +5,7 @@ export function tagTwo(tag, parameters = {}, content = [])
     return `${tagOne(tag, parameters)}${txt}</${tag}>`;
 }
 
-export function tagLst(list, callbackMethod)
+export function tagLst(list, callbackMethod = (item, index) => item)
 {
     let txt = "";
     list.forEach((item, index) => {

@@ -7,41 +7,41 @@ class DataService
         this.#urlBase = urlBase;
     }
 
-    get(vegpont, callback)
+    get(vegpont, callback, error)
     {
         axios
             .get(this.#vegpontURL(vegpont))
             .then(response => {
                 callback(response.data);
             })
-            .catch(console.error)
+            .catch(error)
         ;
     }
 
-    post(vegpont, data)
+    post(vegpont, data, callback, error)
     {
         axios
             .post(this.#vegpontURL(vegpont), data)
-            .then(console.log)
-            .catch(console.error)
+            .then(callback)
+            .catch(error)
         ;
     }
 
-    put(vegpont, data)
+    put(vegpont, data, callback, error)
     {
         axios
             .put(this.#vegpontURL(vegpont + this.#primaryKey(data.kulcs)), data)
-            .then(console.log)
-            .catch(console.error)
+            .then(callback)
+            .catch(error)
         ;
     }
 
-    delete(vegpont, kulcs)
+    delete(vegpont, kulcs, callback, error)
     {
         axios
             .delete(this.#vegpontURL(vegpont + this.#primaryKey(kulcs)))
-            .then(console.log)
-            .catch(console.error)
+            .then(callback)
+            .catch(error)
         ;
     }
 
