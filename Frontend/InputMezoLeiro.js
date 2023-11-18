@@ -30,7 +30,7 @@ class InputMezoLeiro
 
     get type()
     {
-        return this._type;
+        return this.#type;
     }
 
     set _type(type)
@@ -40,7 +40,7 @@ class InputMezoLeiro
 
     get pattern()
     {
-        return this._pattern;
+        return this.#pattern;
     }
 
     set _pattern(pattern)
