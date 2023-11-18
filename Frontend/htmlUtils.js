@@ -8,14 +8,18 @@ export function tagTwo(tag, parameters = {}, content = [])
 export function tagLst(list, callbackMethod)
 {
     let txt = "";
-    list.forEach((item, index) => txt += callbackMethod(item, index));
+    list.forEach((item, index) => {
+        txt += callbackMethod(item, index)
+    });
     return txt;
 }
 
 export function tagDct(dict, callbackMethod)
 {
     let txt = "";
-    Object.keys(dict).forEach(key => txt += callbackMethod(key, dict[key]));
+    Object.keys(dict).forEach(key => {
+        txt += callbackMethod(key, dict[key])
+    });
     return txt;
 }
 

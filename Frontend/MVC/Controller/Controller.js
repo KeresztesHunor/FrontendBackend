@@ -1,3 +1,5 @@
+import NumberInputMezoLeiro from "../../NumberInputMezoLeiro.js";
+import TextInputMezoLeiro from "../../TextInputMezoLeiro.js";
 import { VEGPONT_ALAP } from "../../data.js";
 import DataService from "../Model/DataService.js";
 import TablaView from "../View/TablaView.js";
@@ -6,37 +8,23 @@ import UrlapView from "../View/UrlapView.js";
 class Controller
 {
     #dataService;
+    #urlapView;
 
     constructor()
     {
         this.#dataService = new DataService(VEGPONT_ALAP);
-        const URLAP_VIEW = new UrlapView($("#urlap"), {
-            nev: {
-                megj: "Név",
-                type: "text",
-                placeholder: "Név",
-                pattern: "[A-Z][a-z]{2,15}",
-                title: "1 nagybetűvel kezdődik, legalább 3 karakter, legfeljebb 15"
-            },
-            szul: {
-                megj: "Születési év",
-                type: "number",
-                placeholder: "2023",
-                pattern: {
-                    min: 1900,
-                    max: 2023
-                },
-                title: "[1900-2023]"
-            }
+        this.#urlapView = new UrlapView($("#urlap"), {
+            nev: new TextInputMezoLeiro("Név", "Név", "1 nagybetűvel kezdődik, legalább 3 karakter, legfeljebb 15", "[A-Z][a-z]{2,15}"),
+            szul: new NumberInputMezoLeiro("Születési év", "2023", "[1900-2023]", 1900, 2023)
         });
-        this.#dataService.getData("/api/writers", data => {
+        this.#dataService.get("/api/writers", data => {
             const TABLA_VIEW = new TablaView($("#tabla"), data, ["id"]);
         });
         $(window).on("validFormSubmitEvent", event => {
-            this.#dataService.postData("/api/writers", event.detail.data);
+            this.#dataService.post("/api/writers", event.detail.data);
         });
         $(window).on("torlesGombraKattintottEvent", event => {
-            this.#dataService.deleteData("/api/writers", event.detail.primaryKey);
+            this.#dataService.delete("/api/writers", event.detail.data.kulcs);
         });
     }
 }

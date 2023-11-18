@@ -7,34 +7,56 @@ class DataService
         this.#urlBase = urlBase;
     }
 
-    getData(vegpont, callbackFuggveny)
+    get(vegpont, callback)
     {
         axios
-            .get(this.#urlBase + vegpont)
+            .get(this.#vegpontURL(vegpont))
             .then(response => {
-                callbackFuggveny(response.data);
+                callback(response.data);
             })
-            .catch(console.error);
+            .catch(console.error)
+        ;
     }
 
-    postData(vegpont, data)
+    post(vegpont, data)
     {
         axios
-            .post(this.#urlBase + vegpont, data)
+            .post(this.#vegpontURL(vegpont), data)
             .then(console.log)
-            .catch(console.error);
+            .catch(console.error)
+        ;
     }
 
-    deleteData(vegpont, kulcs)
+    put(vegpont, data)
     {
-        let osszetettKulcs = "";
-        kulcs.forEach(adat => {
-            osszetettKulcs += "/" + adat;
+        axios
+            .put(this.#vegpontURL(vegpont + this.#primaryKey(data.kulcs)), data)
+            .then(console.log)
+            .catch(console.error)
+        ;
+    }
+
+    delete(vegpont, kulcs)
+    {
+        axios
+            .delete(this.#vegpontURL(vegpont + this.#primaryKey(kulcs)))
+            .then(console.log)
+            .catch(console.error)
+        ;
+    }
+
+    #vegpontURL(vegpont)
+    {
+        return this.#urlBase + vegpont;
+    }
+
+    #primaryKey(adatLista)
+    {
+        let kulcs = "";
+        adatLista.forEach(adat => {
+            kulcs += "/" + adat;
         });
-        axios
-            .delete(this.#urlBase + vegpont + osszetettKulcs)
-            .then(console.log)
-            .catch(console.error);
+        return kulcs;
     }
 }
 

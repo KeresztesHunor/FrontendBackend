@@ -10,7 +10,7 @@ class TablaView
                 tagTwo("thead", {}, [
                     tagTwo("tr", {}, [
                         tagLst(Object.keys(adatLista[0]), ertek => tagTwo("th", {}, [ertek])),
-                        tagTwo("td", {}, ["Törlés"])
+                        tagTwo("th", {}, ["Törlés"])
                     ])
                 ]),
                 tagTwo("tbody")

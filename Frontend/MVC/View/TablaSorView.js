@@ -2,7 +2,7 @@ import { tagDct, tagTwo } from "../../htmlUtils.js";
 
 class TablaSorView
 {
-    constructor(szuloElem, adatObjektum, primaryKey)
+    constructor(szuloElem, adatObjektum, kulcs)
     {
         szuloElem.append(
             tagTwo("tr", {}, [
@@ -18,14 +18,16 @@ class TablaSorView
         const TORLES_GOMB = TABLA_SOR_ELEM.children("td:last-child").children("button");
         TORLES_GOMB.on("click", () => {
             window.dispatchEvent(new CustomEvent("torlesGombraKattintottEvent", {
-                detail: {
-                    primaryKey: (() => {
-                        const LISTA = [];
-                        primaryKey.forEach(adat => {
-                            LISTA.push(adatObjektum[adat]);
-                        });
-                        return LISTA;
-                    })()
+                detail:{
+                    data: {
+                        kulcs: (() => {
+                            const LISTA = [];
+                            kulcs.forEach(adat => {
+                                LISTA.push(adatObjektum[adat]);
+                            });
+                            return LISTA;
+                        })()
+                    }
                 }
             }));
         });
