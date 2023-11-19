@@ -5,6 +5,7 @@ import TablaSorView from "./TablaSorView.js";
 class TablaView
 {
     #szuloElem;
+    #sorok;
 
     constructor(szuloElem)
     {
@@ -21,6 +22,7 @@ class TablaView
                     tagTwo("thead", {}, [
                         tagTwo("tr", {}, [
                             tagLst(Object.keys(adatLista[0]), ertek => tagTwo("th", {}, [ertek])),
+                            tagTwo("th", {}, ["Szerkesztés"]),
                             tagTwo("th", {}, ["Törlés"])
                         ])
                     ]),
@@ -28,8 +30,9 @@ class TablaView
                 ])
             );
             const SOR_SZULO_ELEM = this.#szuloElem.children("table").children("tbody");
-            adatLista.forEach(adat => {
-                new TablaSorView(SOR_SZULO_ELEM, adat, primaryKey);
+            this.#sorok = [];
+            adatLista.forEach((adat, index) => {
+                this.#sorok.push(new TablaSorView(SOR_SZULO_ELEM, adat, primaryKey, index));
             });
         }
         else
@@ -48,6 +51,19 @@ class TablaView
                 tagTwo("p", {}, [error])
             ])
         );
+    }
+
+    szerkeszt(sorIndex)
+    {
+        this.toggleGombokDisabled();
+        this.#sorok[sorIndex].szerkeszt();
+    }
+
+    toggleGombokDisabled()
+    {
+        this.#sorok.forEach(sor => {
+            sor.toggleGombokDisabled();
+        });
     }
 }
 

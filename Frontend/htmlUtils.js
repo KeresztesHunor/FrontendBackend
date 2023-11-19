@@ -1,24 +1,26 @@
 export function tagTwo(tag, parameters = {}, content = [])
 {
     let txt = "";
-    content.forEach(item => txt += item);
+    content.forEach(item => {
+        txt += item;
+    });
     return `${tagOne(tag, parameters)}${txt}</${tag}>`;
 }
 
-export function tagLst(list, callbackMethod = (item, index) => item)
+export function tagLst(list, callback = (item, index) => item)
 {
     let txt = "";
     list.forEach((item, index) => {
-        txt += callbackMethod(item, index)
+        txt += callback(item, index);
     });
     return txt;
 }
 
-export function tagDct(dict, callbackMethod)
+export function tagDct(dict, callback)
 {
     let txt = "";
     Object.keys(dict).forEach(key => {
-        txt += callbackMethod(key, dict[key])
+        txt += callback(key, dict[key]);
     });
     return txt;
 }

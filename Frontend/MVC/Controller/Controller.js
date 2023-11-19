@@ -13,9 +13,9 @@ class Controller
 {
     #dataService;
     #urlapView;
-    #toltesModal;
-    #biztosTorliModal;
-    #hibaModal;
+    #toltesModalView;
+    #biztosTorliModalView;
+    #hibaModalView;
     #tablaView;
 
     constructor()
@@ -26,23 +26,23 @@ class Controller
             szul: new NumberInputMezoLeiro("Születési év", "2023", "[1900-2023]", 1900, 2023)
         });
         const MODALOK_ELEM = $("#modalok");
-        this.#toltesModal = new ToltesModalView(MODALOK_ELEM, "toltes-modal", "Egy pillanat");
-        this.#biztosTorliModal = new BiztosModalView(MODALOK_ELEM, "biztos-torli-modal", "Biztos törli az adatot?", kulcs => {
-            this.#biztosTorliModal.toltestJelez();
+        this.#toltesModalView = new ToltesModalView(MODALOK_ELEM, "toltes-modal", "Egy pillanat");
+        this.#biztosTorliModalView = new BiztosModalView(MODALOK_ELEM, "biztos-torli-modal", "Biztos törli az adatot?", kulcs => {
+            this.#biztosTorliModalView.toltestJelez();
             this.#dataService.delete("/api/writers", kulcs,
                 response => {
                     location.reload();
                 },
                 error => {
-                    this.#biztosTorliModal.eltuntet();
-                    this.#biztosTorliModal.reset();
-                    this.#hibaModal.modalText(this.#hibaUzenetObjektumText(error));
-                    this.#hibaModal.megjelenit();
+                    this.#biztosTorliModalView.eltuntet();
+                    this.#biztosTorliModalView.reset();
+                    this.#hibaModalView.modalText(this.#hibaUzenetObjektumText(error));
+                    this.#hibaModalView.megjelenit();
                     console.error(error);
                 })
             ;
         });
-        this.#hibaModal = new HibaModalView(MODALOK_ELEM, "hiba-modal");
+        this.#hibaModalView = new HibaModalView(MODALOK_ELEM, "hiba-modal");
         this.#tablaView = new TablaView($("#tabla"));
         this.#dataService.get("/api/writers",
             data => {
@@ -54,23 +54,26 @@ class Controller
             })
         ;
         $(window).on("hibaModalOkGombraKattintottEvent", event => {
-            this.#hibaModal.modalText("");
+            this.#hibaModalView.modalText("");
             location.reload();
         });
         $(window).on("validFormSubmitEvent", event => {
-            this.#toltesModal.megjelenit();
+            this.#toltesModalView.megjelenit();
             this.#dataService.post("/api/writers", event.detail.data,
                 response => {
                     location.reload();
                 },
                 error => {
-                    this.#hibaModal.modalText(this.#hibaUzenetObjektumText(error));
-                    this.#hibaModal.megjelenit();
+                    this.#hibaModalView.modalText(this.#hibaUzenetObjektumText(error));
+                    this.#hibaModalView.megjelenit();
                 })
             ;
         });
+        $(window).on("szerkesztesGombraKattintottEvent", event => {
+            this.#tablaView.szerkeszt(event.detail.sorIndex);
+        });
         $(window).on("torlesGombraKattintottEvent", event => {
-            this.#biztosTorliModal.igenGombrakattint()
+            this.#biztosTorliModalView.igenGombrakattint()
                 .then(callback => {
                     callback(event.detail.data.kulcs);
                 })

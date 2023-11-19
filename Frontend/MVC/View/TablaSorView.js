@@ -1,8 +1,11 @@
-import { tagDct, tagTwo } from "../../htmlUtils.js";
+import { tagDct, tagLst, tagTwo } from "../../htmlUtils.js";
 
 class TablaSorView
 {
-    constructor(szuloElem, adatObjektum, kulcs)
+    #szerkesztesGomb;
+    #torlesGomb;
+
+    constructor(szuloElem, adatObjektum, kulcs, sorIndex)
     {
         szuloElem.append(
             tagTwo("tr", {}, [
@@ -11,26 +14,52 @@ class TablaSorView
         );
         const TABLA_SOR_ELEM = szuloElem.children("tr:last-child");
         TABLA_SOR_ELEM.append(
-            tagTwo("td", {}, [
-                tagTwo("button", { class: "btn", "data-bs-toggle": "modal", "data-bs-target": "#biztos-torli-modal" }, ["❌"])
+            tagLst([
+                tagTwo("td", { class: "text-center" }, [
+                    tagTwo("button", { class: "szerkesztes-gomb btn border" }, ["✏"])
+                ]),
+                tagTwo("td", { class: "text-center" }, [
+                    tagTwo("button", { class: "torles-gomb btn border", "data-bs-toggle": "modal", "data-bs-target": "#biztos-torli-modal" }, ["❌"])
+                ])
             ])
         );
-        const TORLES_GOMB = TABLA_SOR_ELEM.children("td:last-child").children("button");
-        TORLES_GOMB.on("click", () => {
-            window.dispatchEvent(new CustomEvent("torlesGombraKattintottEvent", {
-                detail:{
-                    data: {
-                        kulcs: (() => {
-                            const LISTA = [];
-                            kulcs.forEach(adat => {
-                                LISTA.push(adatObjektum[adat]);
-                            });
-                            return LISTA;
-                        })()
-                    }
-                }
-            }));
+        this.#szerkesztesGomb = TABLA_SOR_ELEM.find(".szerkesztes-gomb");
+        this.#torlesGomb = TABLA_SOR_ELEM.find(".torles-gomb");
+        const SZERKESZTES_GOMBRA_KATTINTOTT_EVENT = new CustomEvent("szerkesztesGombraKattintottEvent", {
+            detail: {
+                sorIndex: sorIndex
+            }
         });
+        this.#szerkesztesGomb.on("click", () => {
+            window.dispatchEvent(SZERKESZTES_GOMBRA_KATTINTOTT_EVENT);
+        });
+        const TORLES_GOMBRA_KATTINTOTT_EVENT = new CustomEvent("torlesGombraKattintottEvent", {
+            detail: {
+                data: {
+                    kulcs: (() => {
+                        const LISTA = [];
+                        kulcs.forEach(adat => {
+                            LISTA.push(adatObjektum[adat]);
+                        });
+                        return LISTA;
+                    })()
+                }
+            }
+        });
+        this.#torlesGomb.on("click", () => {
+            window.dispatchEvent(TORLES_GOMBRA_KATTINTOTT_EVENT);
+        });
+    }
+
+    toggleGombokDisabled()
+    {
+        this.#szerkesztesGomb.prop("disabled", (index, value) => !value);
+        this.#torlesGomb.prop("disabled", (index, value) => !value);
+    }
+
+    szerkeszt()
+    {
+        
     }
 }
 
