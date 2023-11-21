@@ -16,15 +16,15 @@ class UrlapView
         const FORM_ELEM = szuloElem.children("form");
         FORM_ELEM.children(".form-group").children("input").toArray().forEach(mezo => {
             const MEZO_ELEM = $(mezo);
-            const INPUT_MEZO_LEIRO = formLeiro[MEZO_ELEM.attr("name")];
+            const INPUT_MEZO_LEIRO_PATTERN = formLeiro[MEZO_ELEM.attr("name")].pattern;
             switch (MEZO_ELEM.attr("type"))
             {
                 case "text":
-                    MEZO_ELEM.attr("pattern", INPUT_MEZO_LEIRO.pattern);
+                    MEZO_ELEM.attr("pattern", INPUT_MEZO_LEIRO_PATTERN);
                     break;
                 case "number":
-                    MEZO_ELEM.attr("min", INPUT_MEZO_LEIRO.pattern.min);
-                    MEZO_ELEM.attr("max", INPUT_MEZO_LEIRO.pattern.max);
+                    MEZO_ELEM.attr("min", INPUT_MEZO_LEIRO_PATTERN.min);
+                    MEZO_ELEM.attr("max", INPUT_MEZO_LEIRO_PATTERN.max);
                     break;
             }
             MEZO_ELEM.prop("required", true);
