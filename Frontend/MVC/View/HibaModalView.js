@@ -1,4 +1,4 @@
-import { tagDct, tagLst, tagTwo } from "../../htmlUtils.js";
+import { tagTwo } from "../../htmlUtils.js";
 import ModalView from "./ModalView.js";
 
 class HibaModalView extends ModalView
@@ -22,11 +22,6 @@ class HibaModalView extends ModalView
     modalText(text)
     {
         this._modalBody.html(text);
-    }
-
-    megjelenit()
-    {
-        this._modalElem.modal("show");
     }
 }
 

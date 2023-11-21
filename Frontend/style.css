@@ -9,17 +9,3 @@
     display: grid;
     animation: loading-bar 1s infinite;
 }
-
-@keyframes loading-bar {
-    0% {
-        grid-template-columns: 0 auto 100%;
-    }
-
-    50% {
-        grid-template-columns: 0 auto 0;
-    }
-
-    100% {
-        grid-template-columns: 100% auto 0;
-    }
-}

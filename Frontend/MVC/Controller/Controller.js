@@ -5,6 +5,7 @@ import { tagDct, tagLst, tagTwo } from "../../htmlUtils.js";
 import DataService from "../Model/DataService.js";
 import BiztosModalView from "../View/BiztosModalView.js";
 import HibaModalView from "../View/HibaModalView.js";
+import LoadingBar from "../View/LoadingBar.js";
 import TablaView from "../View/TablaView.js";
 import ToltesModalView from "../View/ToltesModalView.js";
 import UrlapView from "../View/UrlapView.js";
@@ -73,6 +74,7 @@ class Controller
             this.#tablaView.szerkeszt(event.detail.sorIndex);
         });
         $(window).on("torlesGombraKattintottEvent", event => {
+            this.#biztosTorliModalView.megjelenit();
             this.#biztosTorliModalView.igenGombrakattint()
                 .then(callback => {
                     callback(event.detail.data.kulcs);

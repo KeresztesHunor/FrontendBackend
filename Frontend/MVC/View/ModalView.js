@@ -11,7 +11,7 @@ class ModalView
     {
         this.#szuloElem = szuloElem;
         this.#szuloElem.append(
-            tagTwo("div", { id: id, class: "modal", "data-bs-backdrop": "static" }, [
+            tagTwo("div", { id: id, class: "modal", "data-bs-backdrop": "static", style: "display: none;" }, [
                 tagTwo("div", { class: "modal-dialog" }, [
                     tagTwo("div", { class: "modal-content" }, [
                         tagTwo("div", { class: "modal-header" }, [
@@ -46,6 +46,11 @@ class ModalView
     get _szuloElem()
     {
         return this.#szuloElem;
+    }
+
+    megjelenit()
+    {
+        this.#modalElem.modal("show");
     }
 }
 

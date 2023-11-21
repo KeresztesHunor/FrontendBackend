@@ -5,10 +5,8 @@ class LoadingBar
     constructor(szuloElem)
     {
         szuloElem.append(
-            tagTwo("div", { class: "loading-bar" }, [
-                tagTwo("div"),
-                tagTwo("div", { class: "bg-primary" }),
-                tagTwo("div")
+            tagTwo("div", { class: "progress w-100" }, [
+                tagTwo("div", { class: "progress-bar progress-bar-striped  progress-bar-animated bg-primary w-100", role: "progressbar" })
             ])
         );
     }

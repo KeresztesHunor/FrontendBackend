@@ -1,3 +1,4 @@
+import KikapcsolhatoGomb from "../../KikapcsolhatoGomb.js";
 import { tagDct, tagLst, tagTwo } from "../../htmlUtils.js";
 
 class TablaSorView
@@ -19,20 +20,20 @@ class TablaSorView
                     tagTwo("button", { class: "szerkesztes-gomb btn border" }, ["✏"])
                 ]),
                 tagTwo("td", { class: "text-center" }, [
-                    tagTwo("button", { class: "torles-gomb btn border", "data-bs-toggle": "modal", "data-bs-target": "#biztos-torli-modal" }, ["❌"])
+                    tagTwo("button", { class: "torles-gomb btn border" }, ["❌"])
                 ])
             ])
         );
-        this.#szerkesztesGomb = TABLA_SOR_ELEM.find(".szerkesztes-gomb");
-        this.#torlesGomb = TABLA_SOR_ELEM.find(".torles-gomb");
+        this.#szerkesztesGomb = new KikapcsolhatoGomb(TABLA_SOR_ELEM.find(".szerkesztes-gomb"));
+        this.#torlesGomb = new KikapcsolhatoGomb(TABLA_SOR_ELEM.find(".torles-gomb"));
         const SZERKESZTES_GOMBRA_KATTINTOTT_EVENT = new CustomEvent("szerkesztesGombraKattintottEvent", {
             detail: {
                 sorIndex: sorIndex
             }
         });
-        this.#szerkesztesGomb.on("click", () => {
+        this.#szerkesztesGomb.onClick = event => {
             window.dispatchEvent(SZERKESZTES_GOMBRA_KATTINTOTT_EVENT);
-        });
+        };
         const TORLES_GOMBRA_KATTINTOTT_EVENT = new CustomEvent("torlesGombraKattintottEvent", {
             detail: {
                 data: {
@@ -46,15 +47,17 @@ class TablaSorView
                 }
             }
         });
-        this.#torlesGomb.on("click", () => {
+        this.#torlesGomb.onClick = event => {
             window.dispatchEvent(TORLES_GOMBRA_KATTINTOTT_EVENT);
-        });
+        };
     }
 
     toggleGombokDisabled()
     {
-        this.#szerkesztesGomb.prop("disabled", (index, value) => !value);
-        this.#torlesGomb.prop("disabled", (index, value) => !value);
+        this.#szerkesztesGomb.toggle();
+        this.#szerkesztesGomb.gombElem.prop("disabled", this.#szerkesztesGomb.disabled);
+        this.#torlesGomb.toggle();
+        this.#torlesGomb.gombElem.prop("disabled", this.#szerkesztesGomb.disabled);
     }
 
     szerkeszt()

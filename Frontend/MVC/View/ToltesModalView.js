@@ -8,11 +8,6 @@ class ToltesModalView extends ModalView
         super(szuloElem, id, "Töltés...", modalSzoveg);
         new LoadingBar(this._modalFooter);
     }
-
-    megjelenit()
-    {
-        this._modalElem.modal("show");
-    }
 }
 
 export default ToltesModalView;
