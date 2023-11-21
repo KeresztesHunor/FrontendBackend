@@ -32,11 +32,14 @@ class UrlapView
         const INPUT_MEZOK = [];
         FORM_ELEM.find("input").toArray().forEach(inputElem => {
             const INPUT_ELEM = $(inputElem);
-            INPUT_MEZOK.push({
-                inputElem: INPUT_ELEM,
-                name: INPUT_ELEM.attr("name"),
-                type: INPUT_ELEM.attr("type")
-            });
+            if (INPUT_ELEM.attr("type") !== "submit")
+            {
+                INPUT_MEZOK.push({
+                    inputElem: INPUT_ELEM,
+                    name: INPUT_ELEM.attr("name"),
+                    type: INPUT_ELEM.attr("type")
+                });
+            }
         });
         FORM_ELEM.on("submit", event => {
             event.preventDefault();
@@ -44,10 +47,7 @@ class UrlapView
             {
                 const DATA = {};
                 INPUT_MEZOK.forEach(inputMezo => {
-                    if (inputMezo.type !== "submit")
-                    {
-                        DATA[inputMezo.name] = inputMezo.inputElem.val();
-                    }
+                    DATA[inputMezo.name] = inputMezo.inputElem.val();
                 });
                 window.dispatchEvent(new CustomEvent("validFormSubmitEvent", {
                     detail: {
