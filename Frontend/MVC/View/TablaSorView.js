@@ -1,31 +1,35 @@
-import KikapcsolhatoGomb from "../../KikapcsolhatoGomb.js";
-import { tagDct, tagLst, tagTwo } from "../../htmlUtils.js";
+import KikapcsolhatoGombView from "./KikapcsolhatoGombView.js";
+import { tagDct, tagLst, tagOne, tagTwo } from "../../htmlUtils.js";
 
 class TablaSorView
 {
     #szerkesztesGomb;
     #torlesGomb;
+    #fillableElemek;
 
-    constructor(szuloElem, adatObjektum, kulcs, sorIndex)
+    constructor(szuloElem, adatObjektum, elsodlegesKulcs, fillable, sorIndex)
     {
         szuloElem.append(
             tagTwo("tr", {}, [
-                tagDct(adatObjektum, (kulcs, ertek) => tagTwo("td", {}, [ertek]))
+                tagDct(adatObjektum, (kulcs, ertek) => tagTwo("td", { class: kulcs }, [ertek]))
             ])
         );
         const TABLA_SOR_ELEM = szuloElem.children("tr:last-child");
         TABLA_SOR_ELEM.append(
             tagLst([
-                tagTwo("td", { class: "text-center" }, [
-                    tagTwo("button", { class: "szerkesztes-gomb btn border" }, ["✏"])
-                ]),
-                tagTwo("td", { class: "text-center" }, [
-                    tagTwo("button", { class: "torles-gomb btn border" }, ["❌"])
-                ])
+                tagTwo("td", { class: "szerkesztes-gomb text-center" }),
+                tagTwo("td", { class: "torles-gomb text-center" })
             ])
         );
-        this.#szerkesztesGomb = new KikapcsolhatoGomb(TABLA_SOR_ELEM.find(".szerkesztes-gomb"));
-        this.#torlesGomb = new KikapcsolhatoGomb(TABLA_SOR_ELEM.find(".torles-gomb"));
+        this.#szerkesztesGomb = new KikapcsolhatoGombView(TABLA_SOR_ELEM.find(".szerkesztes-gomb"), { class: "btn border" }, ["✏"]);
+        this.#torlesGomb = new KikapcsolhatoGombView(TABLA_SOR_ELEM.find(".torles-gomb"), { class: "btn border" }, ["❌"]);
+        this.#fillableElemek = {};
+        fillable.forEach(adat => {
+            this.#fillableElemek[adat.adatNev] = {
+                sorElem: TABLA_SOR_ELEM.find("." + adat.adatNev),
+                type: adat.type
+            };
+        });
         const SZERKESZTES_GOMBRA_KATTINTOTT_EVENT = new CustomEvent("szerkesztesGombraKattintottEvent", {
             detail: {
                 sorIndex: sorIndex
@@ -39,7 +43,7 @@ class TablaSorView
                 data: {
                     kulcs: (() => {
                         const LISTA = [];
-                        kulcs.forEach(adat => {
+                        elsodlegesKulcs.forEach(adat => {
                             LISTA.push(adatObjektum[adat]);
                         });
                         return LISTA;
@@ -62,7 +66,13 @@ class TablaSorView
 
     szerkeszt()
     {
-        
+        for (const KULCS in this.#fillableElemek)
+        {
+            const FILLABLE_ELEM = this.#fillableElemek[KULCS];
+            FILLABLE_ELEM.sorElem.html(
+                tagOne("input", { type: FILLABLE_ELEM.type })
+            );
+        }
     }
 }
 

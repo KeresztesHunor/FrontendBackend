@@ -29,16 +29,24 @@ class UrlapView
             }
             MEZO_ELEM.prop("required", true);
         });
+        const INPUT_MEZOK = [];
+        FORM_ELEM.find("input").toArray().forEach(inputElem => {
+            const INPUT_ELEM = $(inputElem);
+            INPUT_MEZOK.push({
+                inputElem: INPUT_ELEM,
+                name: INPUT_ELEM.attr("name"),
+                type: INPUT_ELEM.attr("type")
+            });
+        });
         FORM_ELEM.on("submit", event => {
             event.preventDefault();
             if (FORM_ELEM[0].checkValidity()) // ez valamiért csak [0]-val működik
             {
                 const DATA = {};
-                FORM_ELEM.find("input").toArray().forEach(inputMezo => {
-                    const INPUT_MEZO_ELEM = $(inputMezo);
-                    if (INPUT_MEZO_ELEM.attr("type") !== "submit")
+                INPUT_MEZOK.forEach(inputMezo => {
+                    if (inputMezo.type !== "submit")
                     {
-                        DATA[INPUT_MEZO_ELEM.attr("name")] = INPUT_MEZO_ELEM.val();
+                        DATA[inputMezo.name] = inputMezo.inputElem.val();
                     }
                 });
                 window.dispatchEvent(new CustomEvent("validFormSubmitEvent", {

@@ -13,7 +13,7 @@ class TablaView
         new LoadingBar(this.#szuloElem);
     }
 
-    adatBetolt(adatLista, primaryKey)
+    adatBetolt(adatLista, primaryKey, fillable)
     {
         if (adatLista.length > 0)
         {
@@ -32,7 +32,7 @@ class TablaView
             const SOR_SZULO_ELEM = this.#szuloElem.children("table").children("tbody");
             this.#sorok = [];
             adatLista.forEach((adat, index) => {
-                this.#sorok.push(new TablaSorView(SOR_SZULO_ELEM, adat, primaryKey, index));
+                this.#sorok.push(new TablaSorView(SOR_SZULO_ELEM, adat, primaryKey, fillable, index));
             });
         }
         else

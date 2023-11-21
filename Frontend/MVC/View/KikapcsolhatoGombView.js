@@ -1,11 +1,16 @@
-class KikapcsolhatoGomb
+import { tagTwo } from "../../htmlUtils.js";
+
+class KikapcsolhatoGombView
 {
     #gombElem;
     #disabled;
 
-    constructor(gombElem, disabled = false)
+    constructor(szuloElem, parameterek = {}, tartalom = [], disabled = false)
     {
-        this.#gombElem = gombElem;
+        szuloElem.append(
+            tagTwo("button", parameterek, tartalom)
+        );
+        this.#gombElem = szuloElem.children("button");
         this.#disabled = disabled;
     }
 
@@ -35,4 +40,4 @@ class KikapcsolhatoGomb
     }
 }
 
-export default KikapcsolhatoGomb;
+export default KikapcsolhatoGombView;

@@ -1,3 +1,5 @@
+import FillableTextInputLeiro from "../../FillableTextInputLeiro.js"
+import FillableNumberInputLeiro from "../../FillableNumberInputLeiro.js"
 import NumberInputMezoLeiro from "../../NumberInputMezoLeiro.js";
 import TextInputMezoLeiro from "../../TextInputMezoLeiro.js";
 import { VEGPONT_ALAP } from "../../data.js";
@@ -5,7 +7,6 @@ import { tagDct, tagLst, tagTwo } from "../../htmlUtils.js";
 import DataService from "../Model/DataService.js";
 import BiztosModalView from "../View/BiztosModalView.js";
 import HibaModalView from "../View/HibaModalView.js";
-import LoadingBar from "../View/LoadingBar.js";
 import TablaView from "../View/TablaView.js";
 import ToltesModalView from "../View/ToltesModalView.js";
 import UrlapView from "../View/UrlapView.js";
@@ -40,20 +41,23 @@ class Controller
                     this.#hibaModalView.modalText(this.#hibaUzenetObjektumText(error));
                     this.#hibaModalView.megjelenit();
                     console.error(error);
-                })
-            ;
+                }
+            );
         });
         this.#hibaModalView = new HibaModalView(MODALOK_ELEM, "hiba-modal");
         this.#tablaView = new TablaView($("#tabla"));
         this.#dataService.get("/api/writers",
             data => {
-                this.#tablaView.adatBetolt(data, ["id"]);
+                this.#tablaView.adatBetolt(data, ["id"], [
+                    new FillableTextInputLeiro("nev"),
+                    new FillableNumberInputLeiro("szul")
+                ]);
             },
             error => {
                 this.#tablaView.hibaKiir(this.#hibaUzenetObjektumText(error));
                 console.error(error);
-            })
-        ;
+            }
+        );
         $(window).on("hibaModalOkGombraKattintottEvent", event => {
             this.#hibaModalView.modalText("");
             location.reload();
@@ -67,8 +71,8 @@ class Controller
                 error => {
                     this.#hibaModalView.modalText(this.#hibaUzenetObjektumText(error));
                     this.#hibaModalView.megjelenit();
-                })
-            ;
+                }
+            );
         });
         $(window).on("szerkesztesGombraKattintottEvent", event => {
             this.#tablaView.szerkeszt(event.detail.sorIndex);
@@ -84,9 +88,9 @@ class Controller
         });
     }
 
-    #hibaUzenetObjektumText(error)
+    #hibaUzenetObjektumText(errorObject)
     {
-        return tagDct(error, (kulcs, ertek) => typeof ertek === "object" ? "" : tagLst([
+        return tagDct(errorObject, (kulcs, ertek) => typeof ertek === "object" ? "" : tagLst([
             tagTwo("h6", {}, [kulcs]),
             tagTwo("p", {}, [ertek])
         ]));
