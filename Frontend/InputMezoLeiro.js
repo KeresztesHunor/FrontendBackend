@@ -1,21 +1,16 @@
 class InputMezoLeiro
 {
-    #megj;
     #placeholder;
     #title;
     #type;
     #pattern;
 
-    constructor(megj, placeholder, title)
+    constructor(placeholder, title, type, pattern)
     {
-        this.#megj = megj;
         this.#placeholder = placeholder;
         this.#title = title;
-    }
-
-    get megj()
-    {
-        return this.#megj;
+        this.#type = type;
+        this.#pattern = pattern;
     }
 
     get placeholder()
@@ -33,19 +28,9 @@ class InputMezoLeiro
         return this.#type;
     }
 
-    set _type(type)
-    {
-        this.#type = type;
-    }
-
     get pattern()
     {
         return this.#pattern;
-    }
-
-    set _pattern(pattern)
-    {
-        this.#pattern = pattern;
     }
 }
 

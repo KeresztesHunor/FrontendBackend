@@ -1,5 +1,5 @@
-import FillableTextInputLeiro from "../../FillableTextInputLeiro.js"
-import FillableNumberInputLeiro from "../../FillableNumberInputLeiro.js"
+import FormTextInputMezoLeiro from "../../FormTextInputMezoLeiro.js"
+import FormNumberInputMezoLeiro from "../../FormNumberInputMezoLeiro.js"
 import NumberInputMezoLeiro from "../../NumberInputMezoLeiro.js";
 import TextInputMezoLeiro from "../../TextInputMezoLeiro.js";
 import { VEGPONT_ALAP } from "../../data.js";
@@ -23,9 +23,11 @@ class Controller
     constructor()
     {
         this.#dataService = new DataService(VEGPONT_ALAP);
+        const NEV_INPUT_MEZO_LEIRO = new TextInputMezoLeiro("Név", "1 nagybetűvel kezdődik, legalább 3 karakter, legfeljebb 15", "[A-Z][a-z]{2,15}");
+        const SZUL_INPUT_MEZO_LEIRO = new NumberInputMezoLeiro("2023", "[1900-2023]", 1900, 2023);
         this.#urlapView = new UrlapView($("#urlap"), {
-            nev: new TextInputMezoLeiro("Név", "Név", "1 nagybetűvel kezdődik, legalább 3 karakter, legfeljebb 15", "[A-Z][a-z]{2,15}"),
-            szul: new NumberInputMezoLeiro("Születési év", "2023", "[1900-2023]", 1900, 2023)
+            nev: new FormTextInputMezoLeiro("Név", NEV_INPUT_MEZO_LEIRO),
+            szul: new FormNumberInputMezoLeiro("Születési év", SZUL_INPUT_MEZO_LEIRO)
         });
         const MODALOK_ELEM = $("#modalok");
         this.#toltesModalView = new ToltesModalView(MODALOK_ELEM, "toltes-modal", "Egy pillanat");
@@ -48,10 +50,10 @@ class Controller
         this.#tablaView = new TablaView($("#tabla"));
         this.#dataService.get("/api/writers",
             data => {
-                this.#tablaView.adatBetolt(data, ["id"], [
-                    new FillableTextInputLeiro("nev"),
-                    new FillableNumberInputLeiro("szul")
-                ]);
+                this.#tablaView.adatBetolt(data, ["id"], {
+                    nev: NEV_INPUT_MEZO_LEIRO,
+                    szul: SZUL_INPUT_MEZO_LEIRO
+                });
             },
             error => {
                 this.#tablaView.hibaKiir(this.#hibaUzenetObjektumText(error));

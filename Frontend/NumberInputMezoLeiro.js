@@ -2,14 +2,12 @@ import InputMezoLeiro from "./InputMezoLeiro.js";
 
 class NumberInputMezoLeiro extends InputMezoLeiro
 {
-    constructor(megj, placeholder, title, min, max)
+    constructor(placeholder, title, min, max)
     {
-        super(megj, placeholder, title);
-        this._type = "number";
-        this._pattern = {
+        super(placeholder, title, "number", {
             min: min,
             max: max
-        };
+        });
     }
 }
 

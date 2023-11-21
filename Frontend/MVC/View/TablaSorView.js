@@ -7,7 +7,7 @@ class TablaSorView
     #torlesGomb;
     #fillableElemek;
 
-    constructor(szuloElem, adatObjektum, elsodlegesKulcs, fillable, sorIndex)
+    constructor(szuloElem, adatObjektum, elsodlegesKulcs, fillableLeirok, sorIndex)
     {
         szuloElem.append(
             tagTwo("tr", {}, [
@@ -24,12 +24,13 @@ class TablaSorView
         this.#szerkesztesGomb = new KikapcsolhatoGombView(TABLA_SOR_ELEM.find(".szerkesztes-gomb"), { class: "btn border" }, ["✏"]);
         this.#torlesGomb = new KikapcsolhatoGombView(TABLA_SOR_ELEM.find(".torles-gomb"), { class: "btn border" }, ["❌"]);
         this.#fillableElemek = {};
-        fillable.forEach(adat => {
-            this.#fillableElemek[adat.adatNev] = {
-                sorElem: TABLA_SOR_ELEM.find("." + adat.adatNev),
-                type: adat.type
+        for (const KULCS in fillableLeirok)
+        {
+            this.#fillableElemek[KULCS] = {
+                sorElem: TABLA_SOR_ELEM.find("." + KULCS),
+                type: fillableLeirok[KULCS].type
             };
-        });
+        }
         const SZERKESZTES_GOMBRA_KATTINTOTT_EVENT = new CustomEvent("szerkesztesGombraKattintottEvent", {
             detail: {
                 sorIndex: sorIndex
@@ -70,7 +71,7 @@ class TablaSorView
         {
             const FILLABLE_ELEM = this.#fillableElemek[KULCS];
             FILLABLE_ELEM.sorElem.html(
-                tagOne("input", { type: FILLABLE_ELEM.type })
+                tagOne("input", { type: FILLABLE_ELEM.type, class: "form-control" })
             );
         }
     }
