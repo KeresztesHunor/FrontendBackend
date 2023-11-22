@@ -14,29 +14,25 @@ class UrlapView
             ])
         );
         const FORM_ELEM = szuloElem.children("form");
-        const FORM_INPUT_MEZO_ELEMEK = FORM_ELEM.children(".form-group").children("input").toArray();
-        FORM_INPUT_MEZO_ELEMEK.forEach(mezo => {
-            const MEZO_ELEM = $(mezo);
-            const INPUT_MEZO_LEIRO_PATTERN = formLeiro[MEZO_ELEM.attr("name")].pattern;
-            switch (MEZO_ELEM.attr("type"))
+        const INPUT_MEZOK = [];
+        FORM_ELEM.children(".form-group").children("input").toArray().forEach(inputMezoElem => {
+            const INPUT_MEZO_ELEM = $(inputMezoElem);
+            const INPUT_MEZO_LEIRO_PATTERN = formLeiro[INPUT_MEZO_ELEM.attr("name")].pattern;
+            switch (INPUT_MEZO_ELEM.attr("type"))
             {
                 case "text":
-                    MEZO_ELEM.attr("pattern", INPUT_MEZO_LEIRO_PATTERN);
+                    INPUT_MEZO_ELEM.attr("pattern", INPUT_MEZO_LEIRO_PATTERN);
                     break;
                 case "number":
-                    MEZO_ELEM.attr("min", INPUT_MEZO_LEIRO_PATTERN.min);
-                    MEZO_ELEM.attr("max", INPUT_MEZO_LEIRO_PATTERN.max);
+                    INPUT_MEZO_ELEM.attr("min", INPUT_MEZO_LEIRO_PATTERN.min);
+                    INPUT_MEZO_ELEM.attr("max", INPUT_MEZO_LEIRO_PATTERN.max);
                     break;
             }
-            MEZO_ELEM.prop("required", true);
-        });
-        const INPUT_MEZOK = [];
-        FORM_INPUT_MEZO_ELEMEK.forEach(inputElem => {
-            const INPUT_ELEM = $(inputElem);
+            INPUT_MEZO_ELEM.prop("required", true);
             INPUT_MEZOK.push({
-                inputElem: INPUT_ELEM,
-                name: INPUT_ELEM.attr("name"),
-                type: INPUT_ELEM.attr("type")
+                inputElem: INPUT_MEZO_ELEM,
+                name: INPUT_MEZO_ELEM.attr("name"),
+                type: INPUT_MEZO_ELEM.attr("type")
             });
         });
         FORM_ELEM.on("submit", event => {

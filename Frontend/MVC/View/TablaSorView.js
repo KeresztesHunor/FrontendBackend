@@ -3,33 +3,39 @@ import { tagDct, tagLst, tagOne, tagTwo } from "../../htmlUtils.js";
 
 class TablaSorView
 {
+    #tablaSorElem;
     #szerkesztesGomb;
     #torlesGomb;
+    #fillableLeirok;
     #fillableElemek;
+    #fillableAdatok;
 
     constructor(szuloElem, adatObjektum, elsodlegesKulcs, fillableLeirok, sorIndex)
     {
+        this.#fillableLeirok = fillableLeirok;
         szuloElem.append(
             tagTwo("tr", {}, [
                 tagDct(adatObjektum, (kulcs, ertek) => tagTwo("td", { class: kulcs }, [ertek]))
             ])
         );
-        const TABLA_SOR_ELEM = szuloElem.children("tr:last-child");
-        TABLA_SOR_ELEM.append(
+        this.#tablaSorElem = szuloElem.children("tr:last-child");
+        this.#tablaSorElem.append(
             tagLst([
                 tagTwo("td", { class: "szerkesztes-gomb text-center" }),
                 tagTwo("td", { class: "torles-gomb text-center" })
             ])
         );
-        this.#szerkesztesGomb = new KikapcsolhatoGombView(TABLA_SOR_ELEM.find(".szerkesztes-gomb"), { class: "btn border" }, ["✏"]);
-        this.#torlesGomb = new KikapcsolhatoGombView(TABLA_SOR_ELEM.find(".torles-gomb"), { class: "btn border" }, ["❌"]);
+        this.#szerkesztesGomb = new KikapcsolhatoGombView(this.#tablaSorElem.find(".szerkesztes-gomb"), { class: "btn border" }, ["✏"]);
+        this.#torlesGomb = new KikapcsolhatoGombView(this.#tablaSorElem.find(".torles-gomb"), { class: "btn border" }, ["❌"]);
         this.#fillableElemek = {};
+        this.#fillableAdatok = {};
         for (const KULCS in fillableLeirok)
         {
             this.#fillableElemek[KULCS] = {
-                sorElem: TABLA_SOR_ELEM.find("." + KULCS),
+                sorElem: this.#tablaSorElem.find("." + KULCS),
                 type: fillableLeirok[KULCS].type
             };
+            this.#fillableAdatok[KULCS] = adatObjektum[KULCS];
         }
         const SZERKESZTES_GOMBRA_KATTINTOTT_EVENT = new CustomEvent("szerkesztesGombraKattintottEvent", {
             detail: {
@@ -70,10 +76,26 @@ class TablaSorView
         for (const KULCS in this.#fillableElemek)
         {
             const FILLABLE_ELEM = this.#fillableElemek[KULCS];
+            const FILLABLE_LEIRO = this.#fillableLeirok[KULCS];
             FILLABLE_ELEM.sorElem.html(
-                tagOne("input", { type: FILLABLE_ELEM.type, class: "form-control" })
+                tagOne("input", { type: FILLABLE_ELEM.type, name: KULCS, placeholder: FILLABLE_LEIRO.placeholder, value: this.#fillableAdatok[KULCS], title: FILLABLE_LEIRO.title, class: "form-control" })
             );
         }
+        this.#tablaSorElem.find("input").toArray().forEach(inputMezoElem => {
+            const INPUT_MEZO_ELEM = $(inputMezoElem);
+            const INPUT_MEZO_LEIRO_PATTERN = this.#fillableLeirok[INPUT_MEZO_ELEM.attr("name")].pattern;
+            switch (INPUT_MEZO_ELEM.attr("type"))
+            {
+                case "text":
+                    INPUT_MEZO_ELEM.attr("pattern", INPUT_MEZO_LEIRO_PATTERN);
+                    break;
+                case "number":
+                    INPUT_MEZO_ELEM.attr("min", INPUT_MEZO_LEIRO_PATTERN.min);
+                    INPUT_MEZO_ELEM.attr("max", INPUT_MEZO_LEIRO_PATTERN.max);
+                    break;
+            }
+            INPUT_MEZO_ELEM.prop("required", true);
+        });
     }
 }
 
