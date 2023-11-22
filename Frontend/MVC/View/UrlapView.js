@@ -14,7 +14,8 @@ class UrlapView
             ])
         );
         const FORM_ELEM = szuloElem.children("form");
-        FORM_ELEM.children(".form-group").children("input").toArray().forEach(mezo => {
+        const FORM_INPUT_MEZO_ELEMEK = FORM_ELEM.children(".form-group").children("input").toArray();
+        FORM_INPUT_MEZO_ELEMEK.forEach(mezo => {
             const MEZO_ELEM = $(mezo);
             const INPUT_MEZO_LEIRO_PATTERN = formLeiro[MEZO_ELEM.attr("name")].pattern;
             switch (MEZO_ELEM.attr("type"))
@@ -30,16 +31,13 @@ class UrlapView
             MEZO_ELEM.prop("required", true);
         });
         const INPUT_MEZOK = [];
-        FORM_ELEM.find("input").toArray().forEach(inputElem => {
+        FORM_INPUT_MEZO_ELEMEK.forEach(inputElem => {
             const INPUT_ELEM = $(inputElem);
-            if (INPUT_ELEM.attr("type") !== "submit")
-            {
-                INPUT_MEZOK.push({
-                    inputElem: INPUT_ELEM,
-                    name: INPUT_ELEM.attr("name"),
-                    type: INPUT_ELEM.attr("type")
-                });
-            }
+            INPUT_MEZOK.push({
+                inputElem: INPUT_ELEM,
+                name: INPUT_ELEM.attr("name"),
+                type: INPUT_ELEM.attr("type")
+            });
         });
         FORM_ELEM.on("submit", event => {
             event.preventDefault();
