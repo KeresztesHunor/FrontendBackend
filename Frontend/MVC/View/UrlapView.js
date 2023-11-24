@@ -37,7 +37,7 @@ class UrlapView
         });
         FORM_ELEM.on("submit", event => {
             event.preventDefault();
-            if (FORM_ELEM[0].checkValidity()) // ez valamiért csak [0]-val működik
+            if (FORM_ELEM[0].checkValidity()) // Ez csak [0]-val működik
             {
                 const DATA = {};
                 INPUT_MEZOK.forEach(inputMezo => {

@@ -27,10 +27,10 @@ class DataService
         ;
     }
 
-    put(vegpont, data, callback, error)
+    put(vegpont, kulcs, data, callback, error)
     {
         axios
-            .put(this.#vegpontURL(vegpont + this.#primaryKey(data.kulcs)), data)
+            .put(this.#vegpontURL(vegpont + this.#primaryKey(kulcs)), data)
             .then(callback)
             .catch(error)
         ;

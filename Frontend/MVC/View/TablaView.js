@@ -55,15 +55,29 @@ class TablaView
 
     szerkeszt(sorIndex)
     {
-        this.toggleGombokDisabled();
-        this.#sorok[sorIndex].szerkeszt();
+        this.#sorok[sorIndex].szerkeszt()
+            .then(() => {
+                this.#toggleGombokDisabled();
+            })
+        ;
     }
 
-    toggleGombokDisabled()
+    szerkesztesModotKikapcsol(sorIndex)
+    {
+        this.#sorok[sorIndex].szerkesztesModotKikapcsol();
+        this.#toggleGombokDisabled();
+    }
+
+    #toggleGombokDisabled()
     {
         this.#sorok.forEach(sor => {
             sor.toggleGombokDisabled();
         });
+    }
+
+    szerkesztesJovahagyasaPopoverTartalmatMegjelenit(sorIndex)
+    {
+        this.#sorok[sorIndex].szerkesztesJovahagyasaPopoverTartalmatMegjelenit();
     }
 }
 

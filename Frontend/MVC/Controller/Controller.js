@@ -66,13 +66,14 @@ class Controller
         });
         $(window).on("validFormSubmitEvent", event => {
             this.#toltesModalView.megjelenit();
-            this.#dataService.post("/api/writers", event.detail.data,
+            this.#dataService.post("/api/writers", event.detail.kulcs, event.detail.data,
                 response => {
                     location.reload();
                 },
                 error => {
                     this.#hibaModalView.modalText(this.#hibaUzenetObjektumText(error));
                     this.#hibaModalView.megjelenit();
+                    console.log(error);
                 }
             );
         });
@@ -83,10 +84,29 @@ class Controller
             this.#biztosTorliModalView.megjelenit();
             this.#biztosTorliModalView.igenGombrakattint()
                 .then(callback => {
-                    callback(event.detail.data.kulcs);
+                    callback(event.detail.kulcs);
                 })
                 .catch(() => {})
             ;
+        });
+        $(window).on("szerkesztestJovahagyPopoverMegjelentEvent", event => {
+            this.#tablaView.szerkesztesJovahagyasaPopoverTartalmatMegjelenit(event.detail.sorIndex);
+        });
+        $(window).on("validSzerkesztestJovahagyottEvent", event => {
+            this.#toltesModalView.megjelenit();
+            this.#dataService.put("/api/writers", event.detail.kulcs, event.detail.data,
+                response => {
+                    location.reload();
+                },
+                error => {
+                    this.#hibaModalView.modalText(this.#hibaUzenetObjektumText(error));
+                    this.#hibaModalView.megjelenit();
+                    console.log(error);
+                }
+            );
+        });
+        $(window).on("szerkesztestLemondtaEvent", event => {
+            this.#tablaView.szerkesztesModotKikapcsol(event.detail.sorIndex);
         });
     }
 
