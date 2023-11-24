@@ -66,7 +66,7 @@ class Controller
         });
         $(window).on("validFormSubmitEvent", event => {
             this.#toltesModalView.megjelenit();
-            this.#dataService.post("/api/writers", event.detail.kulcs, event.detail.data,
+            this.#dataService.post("/api/writers", event.detail.data,
                 response => {
                     location.reload();
                 },
