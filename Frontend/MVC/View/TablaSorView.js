@@ -4,6 +4,7 @@ import { tagDct, tagLst, tagOne, tagTwo } from "../../htmlUtils.js";
 class TablaSorView
 {
     #tablaSorElem;
+    #sorIndex;
     #szerkesztesGomb;
     #torlesGombView;
     #fillableLeirok;
@@ -41,9 +42,10 @@ class TablaSorView
             };
             this.#fillableAdatok[KULCS] = adatObjektum[KULCS];
         }
+        this.#sorIndex = sorIndex;
         this.#detailSorIndexObj = {
             detail: {
-                sorIndex: sorIndex
+                sorIndex: this.#sorIndex
             }
         };
         const SZERKESZTES_GOMBRA_KATTINTOTT_EVENT = new CustomEvent("szerkesztesGombraKattintottEvent", this.#detailSorIndexObj);
@@ -166,9 +168,11 @@ class TablaSorView
                                 OBJ[inputMezoElem.name] = inputMezoElem.inputMezoElem.val();
                             });
                             return OBJ;
-                        })()
+                        })(),
+                        sorIndex: this.#sorIndex
                     }
                 }));
+                this.#szerkesztestJovahagyPopover.hide();
             }
         });
         POPOVER_ELEM.children(".szerkesztes-megse-gomb").on("click", () => {

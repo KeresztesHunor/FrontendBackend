@@ -104,6 +104,7 @@ class Controller
                     console.log(error);
                 }
             );
+            this.#tablaView.szerkesztesModotKikapcsol(event.detail.sorIndex);
         });
         $(window).on("szerkesztestLemondtaEvent", event => {
             this.#tablaView.szerkesztesModotKikapcsol(event.detail.sorIndex);
